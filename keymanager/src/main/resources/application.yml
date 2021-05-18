@@ -1,0 +1,12 @@
+micronaut:
+  application:
+    name: keymanager
+datasources:
+  default:
+    url: jdbc:mariadb://127.0.0.1:3306/keymanager
+    driverClassName: org.mariadb.jdbc.Driver
+    username: root
+    password: root
+    schema-generate: create-drop
+    dialect: MYSQL
+jpa.default.properties.hibernate.hbm2ddl.auto: update

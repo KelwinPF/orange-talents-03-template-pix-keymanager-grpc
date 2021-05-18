@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zup";
+option java_outer_classname = "Keymanager";
+option objc_class_prefix = "HLW";
+
+package br.com.zup;
+
+service KeymanagerService {
+  rpc send (KeyRequest) returns (KeyResponse) {}
+}
+
+enum TipoChave{
+  RANDOM = 0;
+  CELULAR = 1;
+  EMAIL = 2;
+  CPF = 3;
+}
+
+enum TipoConta{
+  CONTA_CORRENTE = 0;
+  CONTA_POUPANCA = 1;
+}
+
+message KeyRequest {
+  string id_cliente = 1;
+  string chave = 2;
+  TipoChave tipo_chave = 3;
+  TipoConta tipo_conta = 4;
+}
+
+message KeyResponse {
+  string message = 1;
+}

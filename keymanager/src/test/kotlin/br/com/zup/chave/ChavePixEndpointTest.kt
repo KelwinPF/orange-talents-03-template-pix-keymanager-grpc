@@ -4,17 +4,13 @@ import br.com.zup.KeyRequest
 import br.com.zup.KeymanagerServiceGrpc
 import br.com.zup.TipoChave
 import br.com.zup.TipoConta
-import br.com.zup.client.ContaResponse
 import br.com.zup.client.ErpClient
-import br.com.zup.client.Instituicao
-import br.com.zup.client.Titular
 import io.grpc.ManagedChannel
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
 import io.micronaut.context.annotation.Factory
 import io.micronaut.grpc.annotation.GrpcChannel
 import io.micronaut.grpc.server.GrpcServerChannel
-import io.micronaut.http.HttpResponse
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -23,10 +19,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.mockito.Mockito
 
 @MicronautTest(transactional = false)
-internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.KeymanagerServiceBlockingStub) {
+internal class ChavePixEndpointTest(val grpcClient: KeymanagerServiceGrpc.KeymanagerServiceBlockingStub) {
 
     @Inject
     lateinit var repository: ChavePixRepository
@@ -44,7 +39,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
         val request: KeyRequest = KeyRequest.newBuilder().setChave("09241554688")
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.CPF).setTipoConta(TipoConta.CONTA_CORRENTE).build()
-        val tested = ggcliente.send(request)
+        val tested = grpcClient.send(request)
         assertNotNull(tested);
     }
 
@@ -59,7 +54,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.CPF).setTipoConta(TipoConta.CONTA_CORRENTE).build()
         val thrown = assertThrows<StatusRuntimeException>{
-            ggcliente.send(request);
+            grpcClient.send(request);
         }
         with(thrown){
             assertEquals(Status.ALREADY_EXISTS.code,status.code)
@@ -73,7 +68,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.CPF).setTipoConta(TipoConta.CONTA_CORRENTE).build()
         val thrown = assertThrows<StatusRuntimeException>{
-            ggcliente.send(request);
+            grpcClient.send(request);
         }
         with(thrown){
             assertEquals(Status.INVALID_ARGUMENT.code,status.code)
@@ -87,7 +82,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.RANDOM).setTipoConta(TipoConta.CONTA_CORRENTE).build()
 
-        val tested = ggcliente.send(request);
+        val tested = grpcClient.send(request);
         assertNotNull(tested);
     }
 
@@ -98,7 +93,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.CELULAR).setTipoConta(TipoConta.CONTA_CORRENTE).build()
 
-        val tested = ggcliente.send(request);
+        val tested = grpcClient.send(request);
         assertNotNull(tested);
     }
 
@@ -108,7 +103,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.CELULAR).setTipoConta(TipoConta.CONTA_CORRENTE).build()
         val thrown = assertThrows<StatusRuntimeException>{
-            ggcliente.send(request);
+            grpcClient.send(request);
         }
         with(thrown){
             assertEquals(Status.INVALID_ARGUMENT.code,status.code)
@@ -122,7 +117,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.EMAIL).setTipoConta(TipoConta.CONTA_CORRENTE).build()
 
-        assertNotNull(ggcliente.send(request))
+        assertNotNull(grpcClient.send(request))
     }
 
     @Test
@@ -131,7 +126,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.EMAIL).setTipoConta(TipoConta.CONTA_CORRENTE).build()
         val thrown = assertThrows<StatusRuntimeException>{
-            ggcliente.send(request);
+            grpcClient.send(request);
         }
         with(thrown){
             assertEquals(Status.INVALID_ARGUMENT.code,status.code)
@@ -145,7 +140,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3adsadasdasdasd")
             .setTipoChave(TipoChave.EMAIL).setTipoConta(TipoConta.CONTA_CORRENTE).build()
         val thrown = assertThrows<StatusRuntimeException>{
-            ggcliente.send(request);
+            grpcClient.send(request);
         }
         with(thrown){
             assertEquals(Status.NOT_FOUND.code,status.code)
@@ -159,7 +154,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("5260263c-a3c1-4727-ae32-3bdb2538841b")
             .setTipoChave(TipoChave.UNKNOWN_CHAVE).setTipoConta(TipoConta.CONTA_CORRENTE).build()
         val thrown = assertThrows<StatusRuntimeException>{
-            ggcliente.send(request);
+            grpcClient.send(request);
         }
         with(thrown){
             assertEquals(Status.INVALID_ARGUMENT.code,status.code)
@@ -173,7 +168,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("c56dfef4-7901-44fb-84e2-a2cefb157890")
             .setTipoChave(TipoChave.EMAIL).setTipoConta(TipoConta.UNKNOWN_CONTA).build()
         val thrown = assertThrows<StatusRuntimeException>{
-            ggcliente.send(request);
+            grpcClient.send(request);
         }
         with(thrown){
             assertEquals(Status.NOT_FOUND.code,status.code)
@@ -187,7 +182,7 @@ internal class ChavePixEndpointTest(val ggcliente: KeymanagerServiceGrpc.Keymana
             .setIdCliente("c56dfef4-7901-44fb-84e2-a2cefb157890")
             .setTipoChave(TipoChave.UNKNOWN_CHAVE).setTipoConta(TipoConta.UNKNOWN_CONTA).build()
         val thrown = assertThrows<StatusRuntimeException>{
-            ggcliente.send(request);
+            grpcClient.send(request);
         }
         with(thrown){
             assertEquals(Status.INVALID_ARGUMENT.code,status.code)

@@ -7,7 +7,7 @@ import javax.inject.Singleton
 class ChaveInvalidaExceptionHandler:ExceptionHandler<ChaveInvalidaException> {
     override fun handle(e: ChaveInvalidaException): ExceptionHandler.StatusWithDetails {
         return ExceptionHandler.StatusWithDetails(
-            Status.NOT_FOUND
+            Status.INVALID_ARGUMENT
                 .withDescription(e.message)
                 .withCause(e)
         )

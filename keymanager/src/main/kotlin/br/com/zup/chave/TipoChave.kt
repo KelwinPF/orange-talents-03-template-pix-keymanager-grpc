@@ -1,15 +1,20 @@
 package br.com.zup.chave
 
+import io.micronaut.validation.Validated
+import javax.validation.Valid
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 
 enum class TipoChave(s: String) {
     RANDOM("RANDOM"){
         override fun isValid(chave: String?): Boolean {
+            if(chave.isNullOrBlank()){
+                return false
+            }
             return true;
         }
     },CELULAR("CELULAR") {
-        override fun isValid(@NotBlank chave: String?): Boolean {
+        override fun isValid(chave: String?): Boolean {
             if (chave != null) {
                 return chave.matches(Regex("^\\+[1-9][0-9]\\d{1,14}\$"))
             }else{
@@ -17,11 +22,14 @@ enum class TipoChave(s: String) {
             }
         }
     },EMAIL("EMAIL") {
-        override fun isValid(@NotBlank @Email chave: String?): Boolean {
-            return true;
+        override fun isValid(chave: String?): Boolean {
+            if (chave != null) {
+                return chave.matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+\$".toRegex())
+            }
+            return false;
         }
     },CPF("CPF") {
-        override fun isValid(@NotBlank chave: String?): Boolean {
+        override fun isValid(chave: String?): Boolean {
             if (chave != null) {
                 return chave.matches(Regex("^[0-9]{11}\$"))
             }

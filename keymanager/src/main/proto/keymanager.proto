@@ -12,15 +12,17 @@ service KeymanagerService {
 }
 
 enum TipoChave{
-  RANDOM = 0;
-  CELULAR = 1;
-  EMAIL = 2;
-  CPF = 3;
+  UNKNOWN_CHAVE = 0;
+  RANDOM = 1;
+  CELULAR = 2;
+  EMAIL = 3;
+  CPF = 4;
 }
 
 enum TipoConta{
-  CONTA_CORRENTE = 0;
-  CONTA_POUPANCA = 1;
+  UNKNOWN_CONTA = 0;
+  CONTA_CORRENTE = 1;
+  CONTA_POUPANCA = 2;
 }
 
 message KeyRequest {

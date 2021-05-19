@@ -43,6 +43,8 @@ dependencies {
     implementation("io.micronaut.xml:micronaut-jackson-xml")
     implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
     implementation("io.micronaut:micronaut-http")
+    testImplementation("com.h2database:h2")
+    testImplementation("org.mockito:mockito-all:1.10.19")
 }
 
 

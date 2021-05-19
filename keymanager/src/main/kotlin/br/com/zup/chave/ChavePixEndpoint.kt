@@ -21,10 +21,10 @@ import javax.validation.Valid
 @Singleton
 @Validated
 @ErrorHandler
-class ChavePixEndpoint(@Inject val pixRepository: ChavePixRepository,
+open class ChavePixEndpoint(@Inject val pixRepository: ChavePixRepository,
                             @Inject val erpClient: ErpClient): KeymanagerServiceGrpc.KeymanagerServiceImplBase() {
 
-    override fun send(request: KeyRequest, responseObserver: StreamObserver<KeyResponse>?) {
+    open override fun send(request: KeyRequest, responseObserver: StreamObserver<KeyResponse>?) {
 
         var chave: String? = request.chave;
 

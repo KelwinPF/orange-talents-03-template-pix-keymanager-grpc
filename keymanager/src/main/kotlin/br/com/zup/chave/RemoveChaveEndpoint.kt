@@ -1,6 +1,6 @@
 package br.com.zup.chave
 
-import br.com.zup.KeymanagerServiceGrpc
+import br.com.zup.KeymanagerRemoveServiceGrpc
 import br.com.zup.RemoveKeyRequest
 import br.com.zup.RemoveKeyResponse
 import br.com.zup.configuration.ErrorHandler
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 @ErrorHandler
 class RemoveChaveEndpoint(@Inject private val service:ChavePixService)
-    :KeymanagerServiceGrpc.KeymanagerServiceImplBase(){
+    :KeymanagerRemoveServiceGrpc.KeymanagerRemoveServiceImplBase(){
 
     override fun remove(request: RemoveKeyRequest, responseObserver: StreamObserver<RemoveKeyResponse>) {
         val removerequest:RemoveChavePixRequest = request.convert();

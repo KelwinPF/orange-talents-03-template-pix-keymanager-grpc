@@ -11,7 +11,7 @@ data class ChavePixRequest(
     @field:NotBlank val tipoConta:String = "",
     @field:NotBlank val tipoChave:String = "",
 
-){
+    ){
 
     fun toChavePix(conta: Conta):ChavePix{
 

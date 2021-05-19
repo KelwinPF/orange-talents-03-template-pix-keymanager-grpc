@@ -9,6 +9,7 @@ package br.com.zup;
 
 service KeymanagerService {
   rpc send (KeyRequest) returns (KeyResponse) {}
+  rpc remove (RemoveKeyRequest) returns (RemoveKeyResponse){}
 }
 
 enum TipoChave{
@@ -33,5 +34,14 @@ message KeyRequest {
 }
 
 message KeyResponse {
+  string message = 1;
+}
+
+message RemoveKeyRequest{
+  string pixId = 1;
+  string clientId = 2;
+}
+
+message RemoveKeyResponse{
   string message = 1;
 }

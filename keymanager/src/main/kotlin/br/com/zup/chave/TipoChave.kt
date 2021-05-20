@@ -5,7 +5,7 @@ import javax.validation.Valid
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 
-enum class TipoChave(s: String) {
+enum class TipoChave(val s: String) {
     RANDOM("RANDOM"){
         override fun isValid(chave: String?): Boolean {
             if(chave.isNullOrBlank()){
@@ -13,7 +13,7 @@ enum class TipoChave(s: String) {
             }
             return true;
         }
-    },CELULAR("CELULAR") {
+    },CELULAR("PHONE") {
         override fun isValid(chave: String?): Boolean {
             if (chave != null) {
                 return chave.matches(Regex("^\\+[1-9][0-9]\\d{1,14}\$"))
@@ -37,4 +37,8 @@ enum class TipoChave(s: String) {
         }
     };
     abstract fun isValid(chave:String?):Boolean
+
+    fun get_value():String{
+        return s;
+    }
 }

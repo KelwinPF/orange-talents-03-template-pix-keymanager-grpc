@@ -8,8 +8,8 @@ import io.micronaut.http.client.annotation.Client
 
 
 @Client("http://localhost:9091/api/v1")
-open interface ErpClient {
+interface ErpClient {
 
     @Get("/clientes/{clienteId}/contas")
-    open fun getConta(@QueryValue tipo:String,@PathVariable clienteId:String): HttpResponse<ContaResponse>
+    fun getConta(@QueryValue tipo:String,@PathVariable clienteId:String): HttpResponse<ContaResponse>
 }

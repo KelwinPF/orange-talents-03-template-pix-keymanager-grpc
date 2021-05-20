@@ -10,7 +10,7 @@ data class ContaResponse(val tipo:String,
                     val agencia:String,
                     val titular: Titular) {
     fun toConta():Conta{
-        return Conta(agencia,numero,instituicao.nome,titular.nome,titular.cpf)
+        return Conta(agencia,numero,instituicao.nome,titular.nome,titular.cpf,instituicao.ispb)
     }
 }
 

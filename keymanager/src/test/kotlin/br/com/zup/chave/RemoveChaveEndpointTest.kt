@@ -33,7 +33,7 @@ class RemoveChaveEndpointTest(val gweClient:KeymanagerRemoveServiceGrpc.Keymanag
             chave = "+5585988714077",
             clientId = "c56dfef4-7901-44fb-84e2-a2cefb157890",
             conta = Conta(agencia = "1111",numero="11111"
-                ,istituicao = "itau",nomeTitular = "fulano","09822922992")
+                ,istituicao = "itau",nomeTitular = "fulano","09822922992","123123")
         )
 
     }

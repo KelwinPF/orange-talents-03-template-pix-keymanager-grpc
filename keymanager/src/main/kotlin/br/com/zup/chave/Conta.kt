@@ -8,5 +8,6 @@ class Conta(
     val numero:String,
     val istituicao: String,
     val nomeTitular: String,
-    val cpfTitular:String
+    val cpfTitular:String,
+    val ispb:String
 )

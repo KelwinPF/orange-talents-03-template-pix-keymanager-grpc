@@ -51,11 +51,9 @@ class ChavePixService(@Inject private val repository:ChavePixRepository,
     @Transactional
     fun cadastra(@Valid chavePixRequest:ChavePixRequest,request: KeyRequest): ChavePix{
 
-        var consultar: HttpResponse<ContaResponse>
+        val consultar = erpClient.getConta(request.tipoConta.toString(),request.idCliente)
 
-        try{
-            consultar = erpClient.getConta(request.tipoConta.toString(),request.idCliente)
-        }catch(e:Exception){
+        if(consultar?.status != HttpStatus.OK || consultar == null){
             throw ContaNaoEncontradaException();
         }
 
@@ -65,11 +63,9 @@ class ChavePixService(@Inject private val repository:ChavePixRepository,
 
         val chavepix = chavePixRequest.toChavePix(consultar.body().toConta())
 
-        val responsebcb = bcbClient.cadastrarChave(
-            CreatePixKeyRequest(chavepix)
-        )
+        val responsebcb = bcbClient.cadastrarChave(CreatePixKeyRequest(chavepix))
 
-        if(responsebcb.status != HttpStatus.CREATED){
+        if(responsebcb?.status != HttpStatus.CREATED || responsebcb == null){
             throw ChaveInvalidaException("Erro ao cadastrar no banco central");
         }
 

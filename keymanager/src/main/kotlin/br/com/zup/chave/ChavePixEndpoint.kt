@@ -14,9 +14,9 @@ import javax.inject.Singleton
 @Singleton
 @Validated
 @ErrorHandler
-class ChavePixEndpoint(@Inject private val service:ChavePixService): KeymanagerServiceGrpc.KeymanagerServiceImplBase() {
+open class ChavePixEndpoint(@Inject private val service:ChavePixService): KeymanagerServiceGrpc.KeymanagerServiceImplBase() {
 
-    override fun send(request: KeyRequest, responseObserver: StreamObserver<KeyResponse>?) {
+    open override fun send(request: KeyRequest, responseObserver: StreamObserver<KeyResponse>?) {
 
         val chavepix: ChavePixRequest = request.convert(request);
 

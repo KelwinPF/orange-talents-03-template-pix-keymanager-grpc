@@ -19,6 +19,12 @@ interface BcbClient {
     @Produces(MediaType.APPLICATION_XML)
     fun deletarChave(@PathVariable key:String,
                      @Body request: DeletePixKeyRequest):HttpResponse<DeletePixKeyResponse>
+
+    @Get(value = "/{key}")
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    fun consultarChave(@PathVariable key:String): HttpResponse<PixKeyDetailsResponse>
+
 }
 
 data class DeletePixKeyRequest(

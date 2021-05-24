@@ -33,7 +33,7 @@ class ChavePixService(@Inject private val repository:ChavePixRepository,
             val chavepix = chave.get()
 
             try{
-                val bcbresponse = bcbClient.deletarChave(
+                bcbClient.deletarChave(
                     key = chavepix.chave,
                     request = DeletePixKeyRequest(chavepix)
                 )
@@ -46,7 +46,7 @@ class ChavePixService(@Inject private val repository:ChavePixRepository,
 
         }
         throw ChaveNaoExistenteException()
-    }
+    }//transactionalmanager
 
     @Transactional
     fun cadastra(@Valid chavePixRequest:ChavePixRequest,request: KeyRequest): ChavePix{

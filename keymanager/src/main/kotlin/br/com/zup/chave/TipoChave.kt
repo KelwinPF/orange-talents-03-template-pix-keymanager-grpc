@@ -1,5 +1,6 @@
 package br.com.zup.chave
 
+import br.com.zup.configuration.ChaveInvalidaException
 import io.micronaut.validation.Validated
 import javax.validation.Valid
 import javax.validation.constraints.Email
@@ -40,5 +41,16 @@ enum class TipoChave(val s: String) {
 
     fun get_value():String{
         return s;
+    }
+
+    companion object {
+        fun getEnum(value:String): TipoChave{
+            for(t:TipoChave in values()){
+                if(value.equals(t.get_value())){
+                    return t;
+                }
+            }
+            throw ChaveInvalidaException("enum invalido")
+        }
     }
 }

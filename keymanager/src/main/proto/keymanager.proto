@@ -86,3 +86,24 @@ message ConsultaChaveResponse{
     string numero = 6;
   }
 }
+
+service KeymanagerListaService{
+  rpc lista (ListaKeyRequest) returns (ListaKeyResponse){}
+}
+
+message ListaKeyRequest{
+  string clienteId = 1;
+}
+
+message ListaKeyResponse{
+  message ChavePix{
+    string pixId = 1;
+    TipoChave tipoChave = 2;
+    string chave = 3;
+    TipoConta tipoConta = 4;
+    google.protobuf.Timestamp criadoEm = 5;
+  }
+
+  string clientId = 1;
+  repeated ChavePix chaves = 2;
+}

@@ -7,6 +7,7 @@ import com.google.protobuf.Timestamp
 import br.com.zup.chave.TipoChave
 import br.com.zup.chave.TipoConta
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 class PixKeyDetailsResponse(
     val keyType:String,
@@ -45,7 +46,12 @@ class PixKeyDetailsResponse(
                     .setNomeTitular(owner.name)
                     .setNumero(bankAccount.accountNumber)
                     .setTipo(TipoConta.getEnum(bankAccount.accountType).toString())
-                ).setCriadoEm(Timestamp.newBuilder().setNanos(createdAt.nano).setSeconds(createdAt.second.toLong())))
+                ).setCriadoEm(createdAt.let {
+                    val createdAt = it.atZone(ZoneId.of("UTC")).toInstant()
+                    Timestamp.newBuilder()
+                        .setSeconds(createdAt.epochSecond)
+                        .setNanos(createdAt.nano).build()
+                }))
             .build()
     }
 }
